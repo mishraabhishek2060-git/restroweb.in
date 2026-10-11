@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Contact | Gokul Sweet & Restaurant{% endblock %}
+{% block content %}
+<section class="page-heading">
+    <div class="container">
+        <p class="eyebrow">We'd love to hear from you</p>
+        <h1>Get in touch</h1>
+        <p>Questions, feedback, or just saying hello? Send us a message.</p>
+    </div>
+</section>
+<section class="section-pad contact-section">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-5">
+                <p class="eyebrow">Contact Gokul</p>
+                <h2>Let's start<br>a conversation.</h2>
+                <p class="contact-intro">Fill out the form and your message will be sent to our team. We'll be glad to hear from you.</p>
+                <div class="contact-detail"><span class="detail-icon" aria-hidden="true">✳</span><div><strong>Visit us</strong><p>Drop by and enjoy a meal with us.</p></div></div>
+                <div class="contact-detail"><span class="detail-icon" aria-hidden="true">✉</span><div><strong>Write to us</strong><p>Use the form and we'll receive your message.</p></div></div>
+            </div>
+            <div class="col-lg-7">
+                <div class="contact-card">
+                    {% if success %}<div class="alert alert-success" role="status">Your message has been received. Thank you for getting in touch!</div>{% endif %}
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <div class="mb-4">
+                            <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            {% for error in field.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+                        </div>
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}<div class="field-error mb-3">{{ error }}</div>{% endfor %}
+                        <button type="submit" class="btn btn-gold btn-lg w-100">Send message <span aria-hidden="true">→</span></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

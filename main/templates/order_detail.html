@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Your Bill | Gokul Sweet & Restaurant{% endblock %}
+{% block content %}
+<section class="page-heading receipt-heading">
+    <div class="container">
+        <p class="eyebrow">Order received</p>
+        <h1>Your order bill</h1>
+        <p>Show this bill at the counter. Your order has also been saved for the restaurant.</p>
+    </div>
+</section>
+<section class="section-pad receipt-section">
+    <div class="container">
+        <article class="receipt-card">
+            <div class="receipt-top">
+                <div><span class="brand-mark">G</span><div><h2>Gokul Sweet &amp; Restaurant</h2><p>Maharajganj · Hanuman Gari · Near petrol pump</p></div></div>
+                <div class="receipt-number"><span>Bill no.</span><strong>GOK-{{ order.pk|stringformat:'06d' }}</strong></div>
+            </div>
+            <div class="receipt-meta"><span><small>Customer</small><strong>{{ order.customer_name }}</strong></span><span><small>Phone</small><strong>{{ order.customer_phone }}</strong></span><span><small>Time</small><strong>{{ order.created_at|date:'d M Y, g:i A' }}</strong></span></div>
+            <div class="receipt-items">
+                <div class="receipt-row receipt-table-head"><span>Item</span><span>Qty</span><span>Rate</span><span>Amount</span></div>
+                {% for item in order.items.all %}
+                <div class="receipt-row"><span>{{ item.item_name }} <small>{{ item.get_plate_size_display }}</small></span><span>{{ item.quantity }}</span><span>₹{{ item.unit_price|floatformat:2 }}</span><strong>₹{{ item.line_total|floatformat:2 }}</strong></div>
+                {% endfor %}
+            </div>
+            <div class="receipt-total"><span>Total</span><strong>₹{{ order.total|floatformat:2 }}</strong></div>
+            <p class="receipt-thanks">Thank you for choosing Gokul. We look forward to serving you!</p>
+            <div class="receipt-actions">
+                {% if whatsapp_url %}<a class="btn btn-whatsapp btn-lg" href="{{ whatsapp_url }}" target="_blank" rel="noopener">Send order on WhatsApp <span aria-hidden="true">↗</span></a>{% endif %}
+                <button class="btn btn-outline-dark btn-lg" type="button" onclick="window.print()">Print bill</button>
+                <a class="btn btn-outline-dark btn-lg" href="{% url 'menu' %}">Back to menu</a>
+            </div>
+            {% if not whatsapp_url %}<p class="text-danger small mt-3 mb-0">WhatsApp ordering is not configured yet. Please contact the restaurant.</p>{% endif %}
+        </article>
+    </div>
+</section>
+{% endblock %}

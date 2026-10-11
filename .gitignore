@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Local environment and database
+venv/
+.venv/
+.env
+db.sqlite3
+
+# Duplicate source copy; the live media directory is committed
+/menu_images/
+staticfiles/

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}About Us | Gokul Sweet & Restaurant{% endblock %}
+{% block content %}
+<section class="page-heading">
+    <div class="container">
+        <p class="eyebrow">A warm welcome, every time</p>
+        <h1>About Gokul</h1>
+        <p>Good food brings people together. That's what we're here for.</p>
+    </div>
+</section>
+<section class="section-pad">
+    <div class="container">
+        <div class="row align-items-center g-5 about-grid">
+            <div class="col-lg-6">
+                <p class="eyebrow">Our approach</p>
+                <h2>Simple ingredients.<br>Memorable meals.</h2>
+                <p>At Gokul Sweet & Restaurant, we believe a good meal should feel welcoming, satisfying, and worth sharing. We bring together the flavours our guests love with care in every plate.</p>
+                <a href="{% url 'menu' %}" class="text-link">Take a look at the menu <span aria-hidden="true">→</span></a>
+            </div>
+            <div class="col-lg-6">
+                <div class="about-card"><span class="about-ornament" aria-hidden="true">✳</span><p class="eyebrow">The Gokul promise</p><h3>Quality &amp; tradition</h3><p>Thoughtful preparation, familiar flavours, and a place where everyone is welcome.</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

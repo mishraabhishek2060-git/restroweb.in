@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block title %}Our Menu | Gokul Sweet & Restaurant{% endblock %}
+{% block content %}
+<section class="page-heading">
+    <div class="container">
+        <p class="eyebrow">Made for your appetite</p>
+        <h1>Our menu</h1>
+        <p>Choose half or full plates, set the quantity, and place your order.</p>
+    </div>
+</section>
+<section class="section-pad menu-section">
+    <div class="container">
+        {% if errors %}<div class="alert alert-danger" role="alert"><ul class="mb-0">{% for error in errors %}<li>{{ error }}</li>{% endfor %}</ul></div>{% endif %}
+        <form method="post" id="order-form">
+            {% csrf_token %}
+            <div class="order-customer row g-3 align-items-end">
+                <div class="col-md-5"><label class="form-label" for="customer-name">Your name</label><input class="form-control" id="customer-name" name="customer_name" autocomplete="name" required value="{{ request.POST.customer_name }}"></div>
+                <div class="col-md-5"><label class="form-label" for="customer-phone">Phone number</label><input class="form-control" id="customer-phone" name="customer_phone" type="tel" autocomplete="tel" required value="{{ request.POST.customer_phone }}"></div>
+                <div class="col-md-2"><a class="order-help" href="{% url 'contact' %}">Need help?</a></div>
+            </div>
+            <div class="row g-4 mt-2">
+                {% for item in items %}
+                <div class="col-sm-6 col-lg-4">
+                    <article class="card menu-card h-100">
+                        {% if item.image %}<img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}">{% else %}<div class="menu-image-placeholder" aria-hidden="true">G</div>{% endif %}
+                        <div class="card-body">
+                            <h2 class="card-title">{{ item.name }}</h2>
+                            <p class="card-text">{{ item.description }}</p>
+                            <div class="plate-prices"><span>Half <strong>{% if item.effective_half_price is not None %}₹{{ item.effective_half_price|floatformat:2 }}{% else %}Price to be set{% endif %}</strong></span><span>Full <strong>₹{{ item.price|floatformat:2 }}</strong></span></div>
+                            <div class="order-controls">
+                                <label for="plate-{{ item.pk }}">Plate size</label>
+                                <select class="form-select plate-select" id="plate-{{ item.pk }}" name="plate_{{ item.pk }}" data-half="{{ item.effective_half_price }}" data-full="{{ item.price }}">
+                                    <option value="half" data-price="{{ item.effective_half_price|default_if_none:'0' }}" {% if item.effective_half_price is None %}disabled{% endif %}>Half — {% if item.effective_half_price is not None %}₹{{ item.effective_half_price|floatformat:2 }}{% else %}price not set{% endif %}</option>
+                                    <option value="full" selected>Full — ₹{{ item.price|floatformat:2 }}</option>
+                                </select>
+                                <label for="quantity-{{ item.pk }}">Number of plates</label>
+                                <input class="form-control item-quantity" id="quantity-{{ item.pk }}" name="quantity_{{ item.pk }}" type="number" min="0" max="50" value="0" inputmode="numeric">
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                {% empty %}
+                <div class="col-12"><div class="empty-menu"><p class="eyebrow">Coming soon</p><h2>Our menu is being prepared.</h2><p>Please check back soon, or contact us for today's offerings.</p><a class="btn btn-gold" href="{% url 'contact' %}">Contact us</a></div></div>
+                {% endfor %}
+            </div>
+            {% if items %}
+            <div class="order-submit-bar">
+                <div><span class="order-total-label">Estimated bill</span><strong id="order-total">₹0.00</strong><span class="order-total-note">Final total shown on your bill</span></div>
+                <button class="btn btn-gold btn-lg" type="submit">Place order <span aria-hidden="true">→</span></button>
+            </div>
+            {% endif %}
+        </form>
+    </div>
+</section>
+<script>
+    const orderForm = document.getElementById('order-form');
+    if (orderForm) {
+        const currency = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' });
+        const updateTotal = () => {
+            let total = 0;
+            orderForm.querySelectorAll('.menu-card').forEach((card) => {
+                const size = card.querySelector('.plate-select');
+                const quantity = card.querySelector('.item-quantity');
+                if (!size || !quantity) return;
+                total += Number(size.dataset[size.value] || 0) * Number(quantity.value || 0);
+            });
+            document.getElementById('order-total').textContent = currency.format(total);
+        };
+        orderForm.addEventListener('input', updateTotal);
+        orderForm.addEventListener('change', updateTotal);
+    }
+</script>
+{% endblock %}

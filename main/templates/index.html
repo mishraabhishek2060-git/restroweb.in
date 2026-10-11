@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Gokul Sweet & Restaurant | Home{% endblock %}
+{% block content %}
+<section class="hero">
+    <div class="container hero-content">
+        <p class="eyebrow">A little tradition, a lot of taste</p>
+        <h1>Good food.<br><span>Great smiles.</span></h1>
+        <p class="hero-copy">Welcome to Gokul Sweet & Restaurant, where every meal is made to be remembered.</p>
+        <a href="{% url 'menu' %}" class="btn btn-gold btn-lg">Explore our menu <span aria-hidden="true">→</span></a>
+    </div>
+    <div class="hero-note"><span>Freshly prepared</span><span class="note-dot"></span><span>Made with care</span></div>
+</section>
+<section class="welcome-section section-pad">
+    <div class="container text-center narrow-copy">
+        <p class="eyebrow">Welcome to Gokul</p>
+        <h2>Comfort food, served<br>with a little extra heart.</h2>
+        <p>From a quick bite to a meal shared with family, find something delicious on our menu.</p>
+        <a href="{% url 'about' %}" class="text-link">A little about us <span aria-hidden="true">→</span></a>
+    </div>
+</section>
+{% endblock %}
