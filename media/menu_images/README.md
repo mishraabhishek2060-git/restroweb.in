@@ -1,0 +1,1 @@
+Menu images used by the site are stored in this folder.
