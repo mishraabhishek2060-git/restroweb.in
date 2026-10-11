@@ -2,6 +2,8 @@
 
 A Django website for a restaurant, with Home, Menu, About, and Contact pages. Menu entries and contact messages are stored in Django's database and can be managed through the admin site.
 
+Live preview: https://restroweb-in.onrender.com
+
 ## Run locally
 
 1. Create and activate a virtual environment.
