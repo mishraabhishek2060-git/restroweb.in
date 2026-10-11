@@ -22,7 +22,7 @@
                 {% for item in items %}
                 <div class="col-sm-6 col-lg-4">
                     <article class="card menu-card h-100">
-                        {% if item.image %}<img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}">{% else %}<div class="menu-image-placeholder" aria-hidden="true">G</div>{% endif %}
+                        {% if item.image %}<img src="{{ item.image.url }}" onerror="this.onerror=null;const name=this.alt.toLowerCase();this.src=name.includes('noodle')?'/media/menu_images/Screenshot_2026-09-20_132705.png':name.includes('burger')?'/media/menu_images/Screenshot_2026-09-20_132528.png':name.includes('pizza')?'/media/menu_images/Screenshot_2026-09-20_132402.png':name.includes('samosa')?'/media/menu_images/Screenshot_2026-09-20_223506.png':'/static/main/image/banner.jpg';" class="card-img-top" alt="{{ item.name }}">{% else %}<div class="menu-image-placeholder" aria-hidden="true">G</div>{% endif %}
                         <div class="card-body">
                             <h2 class="card-title">{{ item.name }}</h2>
                             <p class="card-text">{{ item.description }}</p>
@@ -71,3 +71,4 @@
     }
 </script>
 {% endblock %}
+
